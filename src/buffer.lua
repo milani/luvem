@@ -1,5 +1,10 @@
 --[[
 
+Copyright 2016-2017 Morteza Milani. All Rights Reserved.
+
+--]]
+--[[
+
 Copyright 2014-2015 The Luvit Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,46 +20,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
---[[lit-meta
-  name = "luvit/buffer"
-  version = "2.1.0"
-  dependencies = {
-    "luvit/core@2.0.0"
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/buffer.lua"
-  description = "A mutable buffer using ffi for luvit."
-  tags = {"luvit", "buffer"}
-]]
-
+local bit = require('bit')
 local core = require('core')
-local ffi = require('ffi')
+local cbuffer = require('cbuffer')
 
 local Object = core.Object
 local instanceof = core.instanceof
-
-ffi.cdef[[
-  void *malloc (size_t __size);
-  void free (void *__ptr);
-]]
 
 local buffer = {}
 
 local Buffer = Object:extend()
 buffer.Buffer = Buffer
 
---avoid bugs when link with static run times lib, eg. /MT link flags
-local C = ffi.os == "Windows" and ffi.load("msvcrt") or ffi.C
-
 function Buffer:initialize(length)
   if type(length) == "number" then
     self.length = length
-    self.ctype = ffi.gc(ffi.cast("unsigned char*", C.malloc(length)), C.free)
+    self.buffer = cbuffer.new(length)
   elseif type(length) == "string" then
     local string = length
     self.length = #string
-    self.ctype = ffi.gc(ffi.cast("unsigned char*", C.malloc(self.length)), C.free)
-    ffi.copy(self.ctype, string, self.length)
+    self.buffer = cbuffer.new(self.length)
+    cbuffer.copy(self.buffer,string)
   else
     error("Input must be a string or number")
   end
@@ -71,25 +57,24 @@ function Buffer.meta:__ipairs()
 end
 
 function Buffer.meta:__tostring()
-  return ffi.string(self.ctype, self.length)
+  return cbuffer.tostring(self.buffer)
 end
-
+--[[
 function Buffer.meta:__concat(other)
   return tostring(self) .. tostring(other)
 end
+]]
 
 function Buffer.meta:__index(key)
   if type(key) == "number" then
-    if key < 1 or key > self.length then error("Index out of bounds") end
-    return self.ctype[key - 1]
+    return self.buffer[key]
   end
   return Buffer[key]
 end
 
 function Buffer.meta:__newindex(key, value)
   if type(key) == "number" then
-    if key < 1 or key > self.length then error("Index out of bounds") end
-    self.ctype[key - 1] = value
+    self.buffer[key] = value
     return
   end
   rawset(self, key, value)
@@ -198,8 +183,8 @@ Buffer.writeInt32LE = Buffer.writeUInt32LE
 Buffer.writeInt32BE = Buffer.writeUInt32BE
 
 function Buffer:toString(i, j)
-  local offset = i and i - 1 or 0
-  return ffi.string(self.ctype + offset, (j or self.length) - offset)
+  local offset = i and i or 1
+  return cbuffer.tostring(self.buffer,offset,(j or self.length) - offset + 1)
 end
 
 function Buffer.isBuffer(b)
