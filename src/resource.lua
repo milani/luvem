@@ -15,29 +15,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
-
---[[lit-meta
-  name = "luvit/resource"
-  version = "2.1.0"
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/resource.lua"
-  description = "Utilities for loading relative resources"
-  dependencies = {
-    "creationix/pathjoin@2.0.0"
-  }
-  tags = {"luvit", "relative", "resource"}
-]]
-
 local pathJoin = require('pathjoin').pathJoin
-local bundle = require('luvi').bundle
-local uv = require('uv')
+local uv = require('luv')
 
 local function getPath()
   local caller = debug.getinfo(2, "S").source
   if caller:sub(1,1) == "@" then
     return caller:sub(2)
-  elseif caller:sub(1, 7) == "bundle:" then
-    return caller
   end
   error("Unknown file path type: " .. caller)
 end
@@ -46,14 +30,12 @@ local function getDir()
   local caller = debug.getinfo(2, "S").source
   if caller:sub(1,1) == "@" then
     return pathJoin(caller:sub(2), "..")
-  elseif caller:sub(1, 7) == "bundle:" then
-    return "bundle:" .. pathJoin(caller:sub(8), "..")
   end
   error("Unknown file path type: " .. caller)
 end
 
 local function innerResolve(path, resolveOnly)
-  local caller = debug.getinfo(2, "S").source
+  local caller = debug.getinfo(3, "S").source
   if caller:sub(1,1) == "@" then
     path = pathJoin(caller:sub(2), "..", path)
     if resolveOnly then return path end
@@ -62,10 +44,6 @@ local function innerResolve(path, resolveOnly)
     local data = assert(uv.fs_read(fd, stat.size, 0))
     uv.fs_close(fd)
     return data, path
-  elseif caller:sub(1, 7) == "bundle:" then
-    path = pathJoin(caller:sub(8), "..", path)
-    if resolveOnly then return path end
-    return bundle.readfile(path), "bundle:" .. path
   end
 end
 

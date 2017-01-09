@@ -15,51 +15,31 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
-
---- luvit thread management
---[[lit-meta
-  name = "luvit/thread"
-  version = "2.1.0"
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/thread.lua"
-  description = "thread module for luvit"
-  tags = {"luvit", "thread","threadpool","work"}
-  dependencies = {
-    "luvit/core@1.0.5",
-  }
-]]
-
-local uv = require('uv')
-local bundlePaths = require('luvi').bundle.paths
+local uv = require('luv')
 local Object = require('core').Object
 
 local function start(thread_func, ...)
   local dumped = type(thread_func)=='function'
     and string.dump(thread_func) or thread_func
 
-  local function thread_entry(dumped, bundlePaths, ...)
+  local package_path = package.path
+  local package_cpath = package.cpath
 
-    -- Convert paths back to table
-    local paths = {}
-    for path in bundlePaths:gmatch("[^;]+") do
-      paths[#paths + 1] = path
-    end
-
-    -- Load luvi environment
-    local _, mainRequire = require('luvibundle').commonBundle(paths)
+  local function thread_entry(dumped, package_path, package_cpath, ...)
 
     -- Inject the global process table
-    _G.process = mainRequire('process').globalProcess()
-
+    package.path = package_path
+    package.cpath = package_cpath
+    _G.process = require('process').globalProcess()
+    -- _G = package_path
     -- Run function with require injected
     local fn = loadstring(dumped)
-    getfenv(fn).require = mainRequire
     fn(...)
 
     -- Start new event loop for thread.
-    require('uv').run()
+    require('luv').run()
   end
-  return uv.new_thread(thread_entry, dumped, table.concat(bundlePaths, ";"), ...)
+  return uv.new_thread(thread_entry, dumped, package_path, package_cpath, ...)
 end
 
 local function join(thread)
@@ -78,16 +58,17 @@ end
 local Worker = Object:extend()
 
 function Worker:queue(...)
-    uv.queue_work(self.handler, self.dumped, self.bundlePaths, ...)
+    uv.queue_work(self.handler, self.dumped, self.package_path, self.package_cpath, ...)
 end
 
 local function work(thread_func, notify_entry)
   local worker = Worker:new()
   worker.dumped = type(thread_func)=='function'
     and string.dump(thread_func) or thread_func
-  worker.bundlePaths = table.concat(bundlePaths, ";")
+  worker.package_path = package.path
+  worker.package_cpath = package.cpath
 
-  local function thread_entry(dumped, bundlePaths, ...)
+  local function thread_entry(dumped, package_path, package_cpath, ...)
     if not _G._uv_works then
       _G._uv_works = {}
     end
@@ -97,20 +78,10 @@ local function work(thread_func, notify_entry)
     if not _G._uv_works[dumped] then
       fn = loadstring(dumped)
 
-      -- Convert paths back to table
-      local paths = {}
-      for path in bundlePaths:gmatch("[^;]+") do
-        paths[#paths + 1] = path
-      end
-
-      -- Load luvi environment
-      local _, mainRequire = require('luvibundle').commonBundle(paths)
-
       -- Inject the global process table
-      _G.process = _G.process or mainRequire('process').globalProcess()
-
-      -- require injected
-      getfenv(fn).require = mainRequire
+      package.path = package_path
+      package.cpath = package_cpath
+      _G.process = _G.process or require('process').globalProcess()
 
       -- cache it
       _G._uv_works[dumped] = fn

@@ -25,8 +25,6 @@ limitations under the License.
   tags = {"os"}
 ]]
 
-local jit = require('jit')
-
 local map = {
   ['Windows'] = 'win32',
   ['Linux'] = 'linux',
@@ -37,7 +35,7 @@ local map = {
 }
 
 local function type()
-  return map[jit.os]
+  return map['Linux']
 end
 
 return { type = type }

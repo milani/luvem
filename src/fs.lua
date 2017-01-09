@@ -15,21 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
---[[lit-meta
-  name = "luvit/fs"
-  version = "2.0.1"
-  dependencies = {
-    "luvit/utils@2.0.0",
-    "luvit/path@2.0.0",
-    "luvit/stream@2.0.0",
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/fs.lua"
-  description = "Node-style filesystem module for luvit"
-  tags = {"luvit", "fs", "stream"}
-]]
-
-local uv = require('uv')
+local uv = require('luv')
 local adapt = require('utils').adapt
 local bind = require('utils').bind
 local join = require('path').join

@@ -15,16 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
-
---[[lit-meta
-  name = "luvit/querystring"
-  version = "2.0.0"
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/querystring.lua"
-  description = "Node-style query-string codec for luvit"
-  tags = {"luvit", "url", "codec"}
-]]
-
 local find = string.find
 local gsub = string.gsub
 local char = string.char

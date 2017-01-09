@@ -22,8 +22,9 @@ local net = require('net')
 local openssl = require('openssl')
 local timer = require('timer')
 local resource = require('resource')
-local uv = require('uv')
+local uv = require('luv')
 local utils = require('utils')
+local bit = require('bit')
 
 local createCredentials
 local DEFAULT_CIPHERS = 'ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:' .. -- TLS 1.2
@@ -212,7 +213,6 @@ function TLSSocket:_verifyServer()
 end
 
 function TLSSocket:destroy(err)
-
   local hasShutdown = false
   local function reallyShutdown()
     if hasShutdown then return end

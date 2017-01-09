@@ -17,7 +17,7 @@ limitations under the License.
 --]]
 
 local core = require('core')
-local Stream = require('./stream_core').Stream
+local Stream = require('stream.stream_core').Stream
 local Error = core.Error
 
 local onwrite, writeAfterEnd, validChunk, writeOrBuffer, clearBuffer,
@@ -43,7 +43,7 @@ function WritableState:initialize(options, stream)
   --]]
   self.objectMode = not not options.objectMode
 
-  if core.instanceof(stream, require('./stream_duplex').Duplex) then
+  if core.instanceof(stream, require('stream.stream_duplex').Duplex) then
     self.objectMode = self.objectMode or not not options.writableObjectMode
   end
 

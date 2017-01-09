@@ -15,23 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
-
---[[lit-meta
-  name = "luvit/net"
-  version = "2.0.0"
-  dependencies = {
-    "luvit/timer@2.0.0",
-    "luvit/utils@2.0.0",
-    "luvit/core@2.0.0",
-    "luvit/stream@2.0.0",
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/net.lua"
-  description = "Node-style net client and server module for luvit"
-  tags = {"luvit", "tcp", "pipe", "stream"}
-]]
-
-local uv = require('uv')
+local uv = require('luv')
 local timer = require('timer')
 local utils = require('utils')
 local Emitter = require('core').Emitter

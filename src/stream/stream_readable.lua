@@ -18,7 +18,7 @@ limitations under the License.
 
 local core = require('core')
 local utils = require('utils')
-local Stream = require('./stream_core').Stream
+local Stream = require('stream.stream_core').Stream
 local Error = core.Error
 
 local ReadableState = core.Object:extend()

@@ -17,11 +17,11 @@ limitations under the License.
 --]]
 
 return {
-  Stream = require('./stream_core').Stream,
-  Writable = require('./stream_writable').Writable,
-  Transform = require('./stream_transform').Transform,
-  Readable = require('./stream_readable').Readable,
-  PassThrough = require('./stream_passthrough').PassThrough,
-  Observable = require('./stream_observable').Observable,
-  Duplex = require('./stream_duplex').Duplex,
+  Stream = require('stream.stream_core').Stream,
+  Writable = require('stream.stream_writable').Writable,
+  Transform = require('stream.stream_transform').Transform,
+  Readable = require('stream.stream_readable').Readable,
+  PassThrough = require('stream.stream_passthrough').PassThrough,
+  Observable = require('stream.stream_observable').Observable,
+  Duplex = require('stream.stream_duplex').Duplex,
 }

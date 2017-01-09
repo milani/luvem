@@ -28,7 +28,7 @@ limitations under the License.
   tags = {"luvit", "dgram", "udp"}
 ]]
 
-local uv = require('uv')
+local uv = require('luv')
 local Emitter = require('core').Emitter
 local timer = require('timer')
 

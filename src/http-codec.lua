@@ -15,17 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
-
---[[lit-meta
-  name = "luvit/http-codec"
-  version = "2.0.0"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/http-codec.lua"
-  description = "A simple pair of functions for converting between hex and raw strings."
-  tags = {"codec", "http"}
-  license = "Apache 2"
-  author = { name = "Tim Caswell" }
-]]
-
 local sub = string.sub
 local gsub = string.gsub
 local lower = string.lower

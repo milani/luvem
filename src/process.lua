@@ -15,30 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
-
---[[lit-meta
-  name = "luvit/process"
-  version = "2.0.0"
-  dependencies = {
-    "luvit/hooks@2.0.0",
-    "luvit/timer@2.0.0",
-    "luvit/utils@2.0.0",
-    "luvit/core@2.0.0",
-    "luvit/stream@2.0.0",
-    "luvit/pretty-print@2.0.0",
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/process.lua"
-  description = "Node-style global process table for luvit"
-  tags = {"luvit", "process"}
-]]
-
-local env = require('env')
-local hooks = require('hooks')
+--local env = require('env')
+--local hooks = require('hooks')
 local os = require('os')
 local timer = require('timer')
 local utils = require('utils')
-local uv = require('uv')
+local uv = require('luv')
 local Emitter = require('core').Emitter
 local Readable = require('stream').Readable
 local Writable = require('stream').Writable
@@ -58,7 +40,7 @@ function lenv.get(key)
 end
 setmetatable(lenv, {
   __pairs = function(table)
-    local keys = env.keys()
+    local keys = {}--env.keys()
     local index = 0
     return function(...)
       index = index + 1
@@ -69,13 +51,13 @@ setmetatable(lenv, {
     end
   end,
   __index = function(table, key)
-    return env.get(key)
+    return os.getenv(key)
   end,
   __newindex = function(table, key, value)
     if value then
-      env.set(key, value, 1)
+      --env.set(key, value, 1)
     else
-      env.unset(key)
+      --env.unset(key)
     end
   end
 })
@@ -177,7 +159,7 @@ local function globalProcess()
   process.stdin = UvStreamReadable:new(pp.stdin)
   process.stdout = UvStreamWritable:new(pp.stdout)
   process.stderr = UvStreamWritable:new(pp.stderr)
-  hooks:on('process.exit', utils.bind(process.emit, process, 'exit'))
+  --hooks:on('process.exit', utils.bind(process.emit, process, 'exit'))
   return process
 end
 

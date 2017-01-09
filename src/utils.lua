@@ -16,18 +16,6 @@ limitations under the License.
 
 --]]
 
---[[lit-meta
-  name = "luvit/utils"
-  version = "2.0.0"
-  dependencies = {
-    "luvit/pretty-print@2.0.0",
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/utils.lua"
-  description = "Wrapper around pretty-print with extra tools for luvit"
-  tags = {"luvit", "bind", "adapter"}
-]]
-
 local Error = require('core').Error
 local utils = {}
 local pp = require('pretty-print')

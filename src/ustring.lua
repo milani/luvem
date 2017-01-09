@@ -15,15 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
---[[lit-meta
-  name = "luvit/ustring"
-  version = "2.0.0"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/ustring.lua"
-  description = "A light-weight UTF-8 module in pure lua(jit)."
-  tags = {"ustring", "utf8", "utf-8", "unicode"}
-  license = "Apache 2"
-]]
-
 local ustring = {}
 local tostring = tostring
 local _meta = {}

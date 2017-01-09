@@ -15,30 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
-
---[[lit-meta
-  name = "luvit/http"
-  version = "2.1.1"
-  dependencies = {
-    "luvit/net@2.0.0",
-    "luvit/url@2.0.0",
-    "luvit/http-codec@2.0.0",
-    "luvit/stream@2.0.0",
-    "luvit/utils@2.0.0",
-    "luvit/http-header@1.0.0",
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/http.lua"
-  description = "Node-style http client and server module for luvit"
-  tags = {"luvit", "http", "stream"}
-]]
-
 local net = require('net')
 local url = require('url')
 local codec = require('http-codec')
 local Writable = require('stream').Writable
 local date = require('os').date
-local luvi = require('luvi')
 local utils = require('utils')
 local httpHeader = require('http-header')
 
@@ -302,7 +283,7 @@ local ClientRequest = Writable:extend()
 
 function ClientRequest.getDefaultUserAgent()
   if ClientRequest._defaultUserAgent == nil then
-    ClientRequest._defaultUserAgent = 'luvit/http luvi/' .. luvi.version
+    ClientRequest._defaultUserAgent = 'luv-std/http'
   end
   return ClientRequest._defaultUserAgent
 end

@@ -1,62 +1,19 @@
---[[lit-meta
-  name = "creationix/pathjoin"
-  description = "The path utilities that used to be part of luvi"
-  version = "2.0.0"
-  tags = {"path"}
-  license = "MIT"
-  author = { name = "Tim Caswell" }
-]]
-
 local getPrefix, splitPath, joinParts
-
-local isWindows
-if _G.jit then
-  isWindows = _G.jit.os == "Windows"
-else
-  isWindows = not not package.path:match("\\")
+function getPrefix(path)
+  return path:match("^/")
 end
-
-if isWindows then
-  -- Windows aware path utilities
-  function getPrefix(path)
-    return path:match("^%a:\\") or
-           path:match("^/") or
-           path:match("^\\+")
+function splitPath(path)
+  local parts = {}
+  for part in string.gmatch(path, '([^/]+)') do
+    table.insert(parts, part)
   end
-  function splitPath(path)
-    local parts = {}
-    for part in string.gmatch(path, '([^/\\]+)') do
-      table.insert(parts, part)
-    end
-    return parts
+  return parts
+end
+function joinParts(prefix, parts, i, j)
+  if prefix then
+    return prefix .. table.concat(parts, '/', i, j)
   end
-  function joinParts(prefix, parts, i, j)
-    if not prefix then
-      return table.concat(parts, '/', i, j)
-    elseif prefix ~= '/' then
-      return prefix .. table.concat(parts, '\\', i, j)
-    else
-      return prefix .. table.concat(parts, '/', i, j)
-    end
-  end
-else
-  -- Simple optimized versions for UNIX systems
-  function getPrefix(path)
-    return path:match("^/")
-  end
-  function splitPath(path)
-    local parts = {}
-    for part in string.gmatch(path, '([^/]+)') do
-      table.insert(parts, part)
-    end
-    return parts
-  end
-  function joinParts(prefix, parts, i, j)
-    if prefix then
-      return prefix .. table.concat(parts, '/', i, j)
-    end
-    return table.concat(parts, '/', i, j)
-  end
+  return table.concat(parts, '/', i, j)
 end
 
 local function pathJoin(...)
@@ -116,7 +73,6 @@ local function pathJoin(...)
 end
 
 return {
-  isWindows = isWindows,
   getPrefix = getPrefix,
   splitPath = splitPath,
   joinParts = joinParts,

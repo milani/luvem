@@ -33,7 +33,7 @@ limitations under the License.
 local core = require('core')
 local net = require('net')
 local timer = require('timer')
-local uv = require('uv')
+local uv = require('luv')
 local los = require('los')
 local adapt = require('utils').adapt
 

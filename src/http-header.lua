@@ -16,15 +16,6 @@ limitations under the License.
 
 --]]
 
---[[lit-meta
-  name = "luvit/http-header"
-  version = "1.0.0"
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/http-header.lua"
-  description = "Utilities for dealing with HTTP headers in Luvit"
-  tags = {"luvit", "http"}
-]]
-
 -- Provide a nice case insensitive interface to headers.
 -- Pulled from https://github.com/creationix/weblit/blob/master/libs/weblit-app.lua
 local headerMeta = {
@@ -105,7 +96,7 @@ end
 --     {"name", value},
 --   }
 --
--- Note: Duplicate string keys will overwrite eachother, with the last duplicate 
+-- Note: Duplicate string keys will overwrite eachother, with the last duplicate
 -- key of the last table taking precedence
 local function combineHeaders(...)
   local combined = newHeaders()

@@ -22,7 +22,7 @@ limitations under the License.
 // Every written chunk gets output as-is.
 --]]
 
-local Transform = require('./stream_transform').Transform
+local Transform = require('stream.stream_transform').Transform
 
 local PassThrough = Transform:extend()
 

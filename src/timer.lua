@@ -15,20 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
---[[lit-meta
-  name = "luvit/timer"
-  version = "2.0.0"
-  dependencies = {
-    "luvit/core@2.0.0",
-    "luvit/utils@2.0.0",
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/timer.lua"
-  description = "Javascript style setTimeout and setInterval for luvit"
-  tags = {"luvit", "timer"}
-]]
-
-local uv = require('uv')
+local uv = require('luv')
 local Object = require('core').Object
 local bind = require('utils').bind
 

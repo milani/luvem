@@ -60,7 +60,7 @@ limitations under the License.
 // the results of the previous transformed chunk were consumed.
 --]]
 
-local Duplex = require('./stream_duplex').Duplex
+local Duplex = require('stream.stream_duplex').Duplex
 local core = require('core')
 local Error = core.Error
 

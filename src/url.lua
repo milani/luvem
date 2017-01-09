@@ -15,18 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
---[[lit-meta
-  name = "luvit/url"
-  version = "2.1.0"
-  dependencies = {
-    "luvit/querystring@2.0.0",
-  }
-  license = "Apache 2"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/url.lua"
-  description = "Node-style url codec for luvit"
-  tags = {"luvit", "url", "codec"}
-]]
-
 local querystring = require('querystring')
 
 local URL = {}

@@ -15,16 +15,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --]]
---[[lit-meta
-  name = "luvit/pretty-print"
-  version = "2.0.0"
-  homepage = "https://github.com/luvit/luvit/blob/master/deps/pretty-print.lua"
-  description = "A lua value pretty printer and colorizer for terminals."
-  tags = {"colors", "tty"}
-  license = "Apache 2"
-  author = { name = "Tim Caswell" }
-]]
-
 local success, uv = pcall(require, 'uv')
 if not success then
   success, uv = pcall(require, 'luv')

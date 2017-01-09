@@ -19,7 +19,7 @@ limitations under the License.
 local loaded = pcall(require, 'openssl')
 if not loaded then return end
 
-local _common_tls = require('./common')
+local _common_tls = require('tls.common')
 local net = require('net')
 
 local DEFAULT_CIPHERS = _common_tls.DEFAULT_CIPHERS
