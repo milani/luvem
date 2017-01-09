@@ -1,0 +1,10 @@
+return {
+  _all = {
+    cpath = "./src/?.so"
+    coverage = true
+  },
+  unit = {
+    tags = "unit"
+    verbose = true
+  }
+}

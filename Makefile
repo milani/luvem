@@ -13,7 +13,4 @@ install:
 	$(MAKE) -C src $@ LUA_LIBDIR=$(LUA_LIBDIR) LUA_LUVDIR=$(LUA_LUVDIR)
 
 test:
-	busted --cpath=./src/?.so
-
-old-test:
-	lua ./tests/run.lua
+	busted --run=unit --cpath=./src/?.so
