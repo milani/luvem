@@ -43,17 +43,9 @@ end
 
 local DEFAULT_CA_STORE
 do
-  local data = assert(resource.load("root_ca.dat"))
   DEFAULT_CA_STORE = openssl.x509.store:new()
-  local index = 1
-  local len = #data
-  while index < len do
-    local len = bit.bor(bit.lshift(data:byte(index), 8), data:byte(index + 1))
-    index = index + 2
-    local cert = assert(openssl.x509.read(data:sub(index, index + len)))
-    index = index + len
-    assert(DEFAULT_CA_STORE:add(cert))
-  end
+  -- Use system's defaults
+  assert(DEFAULT_CA_STORE:load())
 end
 
 -------------------------------------------------------------------------------
