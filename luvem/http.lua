@@ -169,6 +169,7 @@ function ServerResponse:finish(chunk)
   local function maybeClose()
     self:emit('finish')
     self.socket:_end()
+    collectgarbage()
   end
   if #last > 0 then
     self.socket:write(last, function()
