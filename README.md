@@ -7,7 +7,7 @@ The fork made for two reasons:
 * To drop dependency on Luajit
 * To eliminate luvi dependency so that we can use it inside lua ecosystem easily
 
-Also I want to use it on OpenWRT/LEDE, it should be usable on other platforms.
+Although I want to use it on OpenWRT/LEDE, it should be usable on other platforms.
 
 ## Dependencies
 
